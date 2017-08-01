@@ -98,8 +98,7 @@ FOR i=0,features[0].n-1 DO BEGIN   ;Assume all features are in all pictures, eve
          perm1[c]=w[j]   ;Get each permutation of indexes, picture 0 with 1,2,and 3; picture 1 with 2 and 3, etc.
          perm2[c]=w[k]
          
-         feature
-         c++
+         c=c+1
          
       endfor
    endfor
