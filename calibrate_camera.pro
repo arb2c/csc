@@ -1,4 +1,8 @@
+;Picture of grid from 'selfie' camera, results: FOV=60.94 x 36.44 degrees
 read_jpeg,'~/cotton_pictures/WP_20170730_10_22_19_Pro.jpg',c
+
+;From rear camera, results: FOV=59.89 x 35.43 degrees
+;read_jpeg,'~/cotton_pictures/WP_20170731_08_40_09_Pro.jpg',c
 
 ;Use red channel for now
 cr=reform(c[0,*,*])
@@ -10,8 +14,8 @@ c=0
 FOR i=10,s[0]-1,10 DO BEGIN
    f=fft(cr[i,*],-1)
    y=real_part(abs(f)/f[0])
-   pk=peaks(y, 8)
-   pk1=(pk[where(pk gt 5)])[0]  ;Choose first peak at a value > 5 to avoid mean
+   pk=peaks(y, 10)
+   pk1=(pk[where(pk gt 10)])[0]  ;Choose first peak at a value > 10 to avoid mean
    ;print,float(s[1])/pk1
    calx[c]=float(s[1])/pk1
    c=c+1
@@ -25,8 +29,8 @@ c=0
 FOR i=10,s[1]-1,10 DO BEGIN
    f=fft(cr[*,i],-1)
    y=real_part(abs(f)/f[0])
-   pk=peaks(y, 8)
-   pk1=(pk[where(pk gt 5)])[0]
+   pk=peaks(y, 10)
+   pk1=(pk[where(pk gt 10)])[0]
    ;print,float(s[0])/pk1
    caly[c]=float(s[0])/pk1
    c=c+1
@@ -51,5 +55,5 @@ print,'FOV_x',max(thetax)-min(thetax)
 print,'FOV_y',max(thetay)-min(thetay)
 plot,offsety,thetay
 oplot,[min(offsety),max(offsety)],[min(thetay), max(thetay)]
-stop
+
 END

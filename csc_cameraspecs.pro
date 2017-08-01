@@ -5,9 +5,9 @@ FUNCTION csc_cameraspecs, name=name, id=id
    base={cameraname:'', shortname:'', format:'', focallength:'', xfov:0.0, yfov:0.0,$
          xres:0L, yres:0L, equiv35:0.0}
 
-   x=base
    
    ;First addition
+   x=base
    x.cameraname='iPhone4'
    x.shortname='ip4'
    x.format='apple'
@@ -20,6 +20,7 @@ FUNCTION csc_cameraspecs, name=name, id=id
    all=x   
 
    ;Add more probes to the list starting here:
+   x=base
    x.cameraname='iPhone4s'
    x.shortname='ip4s'
    x.format='apple'
@@ -31,6 +32,7 @@ FUNCTION csc_cameraspecs, name=name, id=id
    x.equiv35=30  
    all=[all,x]   
 
+   x=base
    x.cameraname='iPhone5'
    x.shortname='ip5'
    x.format='apple'
@@ -42,6 +44,7 @@ FUNCTION csc_cameraspecs, name=name, id=id
    x.equiv35=30  
    all=[all,x] 
    
+   x=base
    x.cameraname='iPhone5s'
    x.shortname='ip5'
    x.format='apple'
@@ -53,6 +56,7 @@ FUNCTION csc_cameraspecs, name=name, id=id
    x.equiv35=30  
    all=[all,x] 
 
+   x=base
    x.cameraname='iPad2'
    x.shortname='ipad2'
    x.format='apple'
@@ -61,6 +65,30 @@ FUNCTION csc_cameraspecs, name=name, id=id
    x.yfov=43.83
    x.xres=3264
    x.yres=2448
+   x.equiv35=30  
+   all=[all,x]   
+   
+   x=base
+   x.cameraname='Lumia 640'
+   x.shortname='lumia640'
+   x.format='windows'
+   x.focallength=4.28   ;mm
+   x.xfov=59.89
+   x.yfov=35.43
+   x.xres=3264
+   x.yres=1840
+   x.equiv35=30  
+   all=[all,x]   
+   
+   x=base
+   x.cameraname='Lumia 640 Forward'
+   x.shortname='lumia640forward'
+   x.format='windows'
+   x.focallength=4.28   ;mm
+   x.xfov=60.94
+   x.yfov=36.44
+   x.xres=1280
+   x.yres=720
    x.equiv35=30  
    all=[all,x]   
    
