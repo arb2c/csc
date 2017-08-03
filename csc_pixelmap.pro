@@ -24,10 +24,28 @@ FUNCTION csc_pixelmap, fov, npix, camera=camera
    xdist=maxxdist * (findgen(npix[0])-npix[0]/2)/(npix[0]/2)
    ydist=maxydist * (findgen(npix[1])-npix[1]/2)/(npix[1]/2)
    
-   theta=atan(xdist)*180/!pi
-   phi=atan(ydist)*180/!pi
+   theta=atan(xdist)  ;*180/!pi
+   phi=atan(ydist)    ;*180/!pi
+
+   ;A full matrix for elevation
+   ;Probably a better way to do this
+   dist=fltarr(npix)
+   FOR i=0,npix[0]-1 DO dist[i,*]=xdist[i]^2
+   FOR i=0,npix[1]-1 DO dist[*,i]=dist[*,i]+ydist[i]^2
+   dist=sqrt(dist)
+   elevation=(!pi/2 - atan(dist)) ; * 180/!pi
+
+   ;For azimuth, using the atan (2-term) function gets the signs right, acos and asin don't.
+   xdist2d=fltarr(npix)
+   ydist2d=fltarr(npix)
+   FOR i=0,npix[1]-1 DO xdist2d[*,i]=xdist
+   FOR i=0,npix[0]-1 DO ydist2d[i,*]=ydist
+   ;Flipping signs and order here will change the orientation of the zero azimuth, currently set 
+   ;zero is aligned with the x-axis (right side in IDL TV orientation), with the -pi/pi seam on the left.
+   azimuth=atan(ydist2d,-xdist2d) 
    
-   return,{theta:theta, phi:phi}
+   ;All in radians for now
+   return,{theta:theta, phi:phi, elevation:elevation, azimuth:azimuth}
 END
    
    

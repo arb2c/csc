@@ -14,7 +14,7 @@ fn=['WP_20170730_10_10_38_Pro2.jpg',$
 ;Position to center(roughly) of each cloud
 cx=[-17.0, 1.0]
 cy=[22.0, 34.0]
-cz=[]
+cz=[32, 39]*2.54
 diam=[6.5, 7.5]  ;Very rough
 pix2ang=csc_pixelmap(camera='Lumia 640 Forward')
 
@@ -25,7 +25,7 @@ pix2ang=csc_pixelmap(camera='Lumia 640 Forward')
 
 nfeatures=10  ;Max number of features per image
 base={xcg:fltarr(nfeatures), ycg:fltarr(nfeatures), area:fltarr(nfeatures), roi:fltarr(nfeatures), $
-      theta:fltarr(nfeatures), phi:fltarr(nfeatures), n:0}
+      azimuth:fltarr(nfeatures), elevation:fltarr(nfeatures), n:0}
 features=replicate(base, n_elements(fn))
 
 FOR i=0,n_elements(fn)-1 DO BEGIN
@@ -58,8 +58,8 @@ FOR i=0,n_elements(fn)-1 DO BEGIN
       features[i].xcg[j]=iv.xcg
       features[i].ycg[j]=iv.ycg
       features[i].roi[j]=iv.roi
-      features[i].theta[j]=pix2ang.theta[round(iv.xcg)]
-      features[i].phi[j]=pix2ang.phi[round(iv.ycg)]
+      features[i].azimuth[j]=pix2ang.azimuth[round(iv.xcg), round(iv.ycg)]
+      features[i].elevation[j]=pix2ang.elevation[round(iv.xcg), round(iv.ycg)]
       features[i].n=features[i].n+1
    ENDFOR
    
@@ -90,20 +90,25 @@ FOR i=0,features[0].n-1 DO BEGIN   ;Assume all features are in all pictures, eve
    roidiff=abs(features.roi-roi)/roi
    w=where(roidiff lt 0.1, nw)   ;Index to each matching feature
    
-   perm1=intarr(factorial(nw-1))
-   perm2=intarr(factorial(nw-1))
    c=0
    for j=0,nw-2 do begin
       for k=j+1,nw-1 do begin
-         perm1[c]=w[j]   ;Get each permutation of indexes, picture 0 with 1,2,and 3; picture 1 with 2 and 3, etc.
-         perm2[c]=w[k]
+         p1=w[j]   ;Get each permutation of indexes, picture 0 with 1,2,and 3; picture 1 with 2 and 3, etc.
+         p2=w[k]
+         xdist=xpos[j]-xpos[k]
+         ydist=ypos[j]-ypos[k]
+         az1=(features.azimuth)[p1]
+         az2=(features.azimuth)[p2]
+         ev1=(features.elevation)[p1]
+         ev2=(features.elevation)[p2]
          
+         ;Find x and y position of the feature by using where azimuths cross at the ground plane
+         
+    stop     
          c=c+1
          
       endfor
    endfor
-    ;Now compute position of each feature from all combinations of w
-   ;perm1=[]
 ENDFOR
 
 ;Just link by hand for now.
